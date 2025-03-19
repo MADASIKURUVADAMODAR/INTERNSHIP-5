@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Mood Tracker</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1, h2 {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Mood Buttons */
+        .mood-selection {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .mood-btn {
+            font-size: 2rem;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            background-color: #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            outline: none;
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.2);
+            background-color: #d3d3d3;
+        }
+
+        /* Mood History */
+        .history-section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        #mood-history {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            background-color: #fafafa;
+        }
+
+        #mood-history li {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+
+        /* Dark Mode Button */
+        #toggle-theme {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #toggle-theme:hover {
+            background-color: #555;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .dark-mode .container {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        /* Mood-Specific Background Colors */
+        body.happy {
+            background-color: #fff7b2;
+        }
+
+        body.sad {
+            background-color: #b2d8ff;
+        }
+
+        body.excited {
+            background-color: #ffe6b2;
+        }
+
+        body.calm {
+            background-color: #d4edda;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .mood-selection {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Daily Mood Tracker</h1>
+        <div class="mood-selection">
+            <button class="mood-btn" data-mood="happy">😊</button>
+            <button class="mood-btn" data-mood="sad">😢</button>
+            <button class="mood-btn" data-mood="excited">🤩</button>
+            <button class="mood-btn" data-mood="calm">😌</button>
+        </div>
+
+        <div class="history-section">
+            <h2>Mood History</h2>
+            <ul id="mood-history"></ul>
+        </div>
+
+        <button id="toggle-theme">Toggle Dark Mode</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const moodButtons = document.querySelectorAll(".mood-btn");
+            const moodHistory = document.getElementById("mood-history");
+            const toggleTheme = document.getElementById("toggle-theme");
+
+            // Handle mood selection
+            moodButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const mood = button.getAttribute("data-mood");
+                    
+                    // Remove previous mood classes
+                    document.body.className = "";
+                    document.body.classList.add(mood);
+
+                    // Add to history
+                    const listItem = document.createElement("li");
+                    listItem.textContent = mood.charAt(0).toUpperCase() + mood.slice(1);
+
+                    // Add animation to history items
+                    listItem.style.opacity = "0";
+                    moodHistory.appendChild(listItem);
+                    setTimeout(() => {
+                        listItem.style.opacity = "1";
+                        listItem.style.transition = "opacity 0.5s ease";
+                    }, 10);
+                });
+            });
+
+            // Toggle dark mode
+            toggleTheme.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+            });
+        });
+    </script>
+</body>
+</html>
